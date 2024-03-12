@@ -2,11 +2,6 @@
 describe('bootbox.dialog', function() {
   'use strict';
   beforeEach(function() {
-    this.bootstrapVersion = function() {
-      var fullVersion = $.fn.modal.Constructor.VERSION;
-      var i = fullVersion.indexOf('.');
-      return fullVersion.substring(0, i);
-    };
     this.find = function(s) {
       return this.dialog.find(s);
     };
@@ -95,15 +90,11 @@ describe('bootbox.dialog', function() {
     it('shows the expected message', function() {
       return expect(this.text('.bootbox-body')).to.equal('test');
     });
-    it('does not have a header', function() {
-      return expect(this.exists('.modal-header')).not.to.be.ok;
+    it('has a header', function() {
+      return expect(this.exists('.modal-header')).to.be.ok;
     });
-    it('has a close button inside the body', function() {
-      if(this.bootstrapVersion() >=  5) {
-        return expect(this.exists('.modal-body .btn-close')).to.be.ok;
-      } else {
-        return expect(this.exists('.modal-body .close')).to.be.ok;
-      }
+    it('has a close button inside the header', function() {
+      return expect(this.exists('.modal-header .close')).to.be.ok;
     });
     it('does not have a footer', function() {
       return expect(this.exists('.modal-footer')).not.to.be.ok;
@@ -154,11 +145,7 @@ describe('bootbox.dialog', function() {
       });
       return describe('when clicking the close button', function() {
         beforeEach(function() {
-          if(this.bootstrapVersion() >=  5) {
-            return this.dialog.find('.btn-close').trigger('click');
-          } else {
-            return this.dialog.find('.close').trigger('click');
-          }
+          return this.dialog.find('.close').trigger('click');
         });
         return it('should hide the modal', function() {
           return expect(this.hidden).to.have.been.calledWithExactly('hide');
@@ -207,11 +194,7 @@ describe('bootbox.dialog', function() {
       });
       return describe('when clicking the close button', function() {
         beforeEach(function() {
-          if(this.bootstrapVersion() >=  5) {
-            return this.dialog.find('.btn-close').trigger('click');
-          } else {
-            return this.dialog.find('.close').trigger('click');
-          }
+          return this.dialog.find('.close').trigger('click');
         });
         it('should not invoke the callback', function() {
           return expect(this.callback).not.to.have.been.called;
@@ -314,12 +297,7 @@ describe('bootbox.dialog', function() {
       return expect(this.text('.modal-title')).to.equal('My Title');
     });
     return it('has a close button inside the header', function() {
-      if(this.bootstrapVersion() >=  5) {
-        return expect(this.exists('.modal-header .btn-close')).to.be.ok;
-      }
-      else {
-        return expect(this.exists('.modal-header .close')).to.be.ok;
-      }
+      return expect(this.exists('.modal-header .close')).to.be.ok;
     });
   });
   describe('when creating a dialog with no backdrop', function() {
@@ -341,12 +319,7 @@ describe('bootbox.dialog', function() {
       });
     });
     return it('does not have a close button inside the body', function() {
-      if(this.bootstrapVersion() >=  5) {
-        return expect(this.exists('.modal-body .btn-close')).not.to.be.ok;
-      }
-      else {
-        return expect(this.exists('.modal-body .close')).not.to.be.ok;
-      }
+      return expect(this.exists('.modal-body .close')).not.to.be.ok;
     });
   });
   describe('when creating a dialog with an onEscape handler', function() {
@@ -423,11 +396,7 @@ describe('bootbox.dialog', function() {
       });
       return describe('when clicking the escape button', function() {
         beforeEach(function() {
-          if(this.bootstrapVersion() >=  5) {
-            return this.dialog.find('.btn-close').trigger('click');
-          } else {
-            return this.dialog.find('.close').trigger('click');
-          }
+          return this.dialog.find('.close').trigger('click');
         });
         it('should invoke the callback', function() {
           return expect(this.callback).to.have.been.called;

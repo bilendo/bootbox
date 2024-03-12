@@ -3,11 +3,6 @@ describe('bootbox.prompt', function () {
   'use strict';
   beforeEach(function () {
     window.bootbox = bootbox.init();
-    this.bootstrapVersion = function() {
-      var fullVersion = $.fn.modal.Constructor.VERSION;
-      var i = fullVersion.indexOf('.');
-      return fullVersion.substring(0, i);
-    };
     this.find = function (selector) {
       return this.dialog.find(selector);
     };
@@ -800,7 +795,7 @@ describe('bootbox.prompt', function () {
       });
       describe('with default value', function () {
         beforeEach(function () {
-          this.options.value = '2005-08-17';
+          this.options.value = '2005-08-17';// This must be an ISO-8601 date
           return this.create();
         });
         return it('has correct default value', function () {
@@ -1292,11 +1287,7 @@ describe('bootbox.prompt', function () {
       });
       describe('when dismissing the dialog by clicking the close button', function () {
         beforeEach(function () {
-          if(this.bootstrapVersion() >=  5) {
-            return this.dialog.find('.btn-close').trigger('click');
-          } else {
-            return this.dialog.find('.close').trigger('click');
-          }
+          return this.dialog.find('.close').trigger('click');
         });
         it('should invoke the callback', function () {
           return expect(this.callback).to.have.been.called;
@@ -1401,11 +1392,7 @@ describe('bootbox.prompt', function () {
       });
       describe('when dismissing the dialog by clicking the close button', function () {
         beforeEach(function () {
-          if(this.bootstrapVersion() >=  5) {
-            return this.dialog.find('.btn-close').trigger('click');
-          } else {
-            return this.dialog.find('.close').trigger('click');
-          }
+          return this.dialog.find('.close').trigger('click');
         });
         it('should invoke the callback', function () {
           return expect(this.callback).to.have.been.called;
@@ -1529,8 +1516,8 @@ describe('bootbox.prompt', function () {
             inputType: 'select',
             inputOptions: [
               {
-                value: '#',
-                text: 'Choose one',
+                value: '',
+                text: 'Choose one'
               }, {
                 value: 1,
                 text: 'Vim'
@@ -1562,7 +1549,7 @@ describe('bootbox.prompt', function () {
             return expect(this.callback.thisValues[0]).to.equal(this.dialog);
           });
           return it('with the correct value', function () {
-            return expect(this.callback).to.have.been.calledWithExactly('#');
+            return expect(this.callback).to.have.been.calledWithExactly('');
           });
         });
         describe('when dismissing the dialog by clicking Cancel', function () {
@@ -1590,7 +1577,7 @@ describe('bootbox.prompt', function () {
             inputType: 'select',
             inputOptions: [
               {
-                value: '#',
+                value: '',
                 text: 'Choose one'
               }, {
                 value: 1,

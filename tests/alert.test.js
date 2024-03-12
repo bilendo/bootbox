@@ -1,14 +1,15 @@
 describe('bootbox.alert', function() {
   'use strict';
   var self;
+  var _this = this;
+  _this.bootstrapVersion = function() {
+    let fullVersion = $.fn.modal.Constructor.VERSION;
+    let i = fullVersion.indexOf('.');
+    return fullVersion.substring(0, i);
+  };
 
   beforeEach(function() {
     self = this;
-    this.bootstrapVersion = function() {
-      var fullVersion = $.fn.modal.Constructor.VERSION;
-      var i = fullVersion.indexOf('.');
-      return fullVersion.substring(0, i);
-    };
 
     this.text = function(selector) {
       return this.find(selector).text();
@@ -58,28 +59,24 @@ describe('bootbox.alert', function() {
           expect(this.find('.modal-footer button:first').hasClass('bootbox-accept')).to.be.true;
         });
 
-        it('shows a close button inside the body', function() {
-          if(this.bootstrapVersion() >= 5) {
-            expect(this.text('.modal-body button')).to.equal('');
-          } else {
-            expect(this.text('.modal-body button')).to.equal('×');
+        it('shows a close button inside the header', function() {
+          if(_this.bootstrapVersion() >= 5) {
+            expect(this.text('.modal-header button')).to.equal('');
+          }
+          else {
+            expect(this.text('.modal-header button')).to.equal('×');
           }
         });
 
         it('applies the close class to the close button', function() {
-          if(this.bootstrapVersion() >=  5) {
-            expect(this.find('.modal-body button').hasClass('btn-close')).to.be.true;
-          } else {
-            expect(this.find('.modal-body button').hasClass('close')).to.be.true;
+          if(_this.bootstrapVersion() >= 5) {
+            expect(this.find('.modal-header button').hasClass('btn-close')).to.be.true;
           }
+          expect(this.find('.modal-header button').hasClass('close')).to.be.true;
         });
 
         it('applies the correct aria-hidden attribute to the close button', function() {
-          if(this.bootstrapVersion() >=  5) {
-            expect(this.find('button.btn-close').attr('aria-label')).to.equal('Close');
-          } else {
-            expect(this.find('button.close').attr('aria-hidden')).to.equal('true');
-          }
+          expect(this.find('button.close').attr('aria-hidden')).to.equal('true');
         });
 
         it('applies the correct class to the body', function() {
@@ -211,11 +208,7 @@ describe('bootbox.alert', function() {
 
       describe('when clicking the close button', function() {
         beforeEach(function() {
-          if(this.bootstrapVersion() >=  5) {
-            this.dialog.find('.btn-close').trigger('click');
-          } else {
-            this.dialog.find('.close').trigger('click');
-          }
+          this.dialog.find('.close').trigger('click');
         });
 
         it('should hide the modal', function() {
@@ -266,11 +259,7 @@ describe('bootbox.alert', function() {
 
       describe('when clicking the close button', function() {
         beforeEach(function() {
-          if(this.bootstrapVersion() >= 5) {
-            this.dialog.find('.btn-close').trigger('click');
-          } else {
-            this.dialog.find('.close').trigger('click');
-          }
+          this.dialog.find('.close').trigger('click');
         });
 
         it('should invoke the callback', function() {
@@ -338,11 +327,7 @@ describe('bootbox.alert', function() {
 
       describe('when clicking the close button', function() {
         beforeEach(function() {
-          if(this.bootstrapVersion() >=  5) {
-            this.dialog.find('.btn-close').trigger('click');
-          } else {
-            this.dialog.find('.close').trigger('click');
-          }
+          this.dialog.find('.close').trigger('click');
         });
 
         it('should invoke the callback', function() {
